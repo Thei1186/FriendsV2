@@ -9,23 +9,22 @@
 
     <TextView
         android:id="@+id/tvHeader"
+        style="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detail"
         android:layout_gravity="center"
-        style="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:text="Detail" />
 
     <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="5dip">
 
-            <TextView
-                android:text="Name:" />
+            <TextView android:text="Name:" />
 
             <EditText
                 android:id="@+id/etName"
@@ -35,46 +34,70 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="5dip">
 
-            <TextView
-                android:text="Phone:" />
+            <TextView android:text="Phone:" />
 
             <EditText
                 android:id="@+id/etPhone"
                 android:text="Phone" />
+
+            <Button
+                android:id="@+id/btnCall"
+                android:text="Call"></Button>
+
+            <Button
+                android:id="@+id/btnSms"
+                android:text="Sms"></Button>
         </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="5dip">
 
-            <TextView
-                android:text="Favorite:" />
+            <TextView android:text="Favorite:" />
 
             <CheckBox
                 android:id="@+id/cbFavorite"
                 android:checked="false" />
         </TableRow>
 
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_gravity="start"
+            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:contentDescription="Profile photo">
+        </ImageView>
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="5dip">
+
+            <Button
+                android:id="@+id/btnPhoto"
+                android:layout_gravity="center"
+                android:text="Take Photo" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip">
 
             <Button
                 android:id="@+id/btnCancel"
-                android:text="Cancel"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:text="Cancel" />
 
             <Button
                 android:id="@+id/btnOk"
-                android:text="OK"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:text="OK" />
         </TableRow>
-    </TableLayout>
 
+    </TableLayout>
 
 
 </LinearLayout>
