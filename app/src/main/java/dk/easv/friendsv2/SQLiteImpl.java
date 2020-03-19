@@ -29,7 +29,7 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public void deleteAll() {
-
+        mDatabase.delete(TABLE_NAME, null, null);
     }
 
 
