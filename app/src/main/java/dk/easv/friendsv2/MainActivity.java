@@ -6,37 +6,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.easv.friendsv2.Model.BEFriend;
-import dk.easv.friendsv2.Model.Friends;
 
 public class MainActivity extends ListActivity {
-
+    private IDataAccess mDataAccess;
     public static String TAG = "Friend2";
     int SECOND_ACTIVITY = 2;
-    Friends m_friends;
-    String[] friends;
+
+    List<BEFriend> friends;
     ArrayAdapter adapter;
     FriendAdapter friendAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Friends v2");
-        m_friends = new Friends();
 
-        friends = m_friends.getNames();
+        mDataAccess = DataAccessFactory.getInstance(this);
+        friends = mDataAccess.selectAll();
 
-        friendAdapter = new FriendAdapter(this, R.layout.cell ,m_friends.getAll());
-
-        adapter =
-                new ArrayAdapter<String>(this,
-                        android.R.layout.simple_list_item_1,
-                        friends);
+        friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
 
         setListAdapter(friendAdapter);
 
@@ -49,7 +42,7 @@ public class MainActivity extends ListActivity {
 
         Intent x = new Intent(this, DetailActivity.class);
         Log.d(TAG, "Detail activity will be started");
-        BEFriend friend = m_friends.getAll().get(position);
+        BEFriend friend = friends.get(position);
         addData(x, friend);
         x.putExtra("position",position);
         startActivityForResult(x,SECOND_ACTIVITY);
@@ -64,14 +57,14 @@ public class MainActivity extends ListActivity {
                     BEFriend updatedFriend = (BEFriend)data.getExtras().getSerializable("updatedFriend");
 
                     int position = data.getExtras().getInt("position");
-                    m_friends.getAll().set(position, updatedFriend);
+                    friends.set(position, updatedFriend);
 
 
-                    friends = m_friends.getNames();
+
                     Log.d("XYZ", updatedFriend.getName());
-                    adapter = new FriendAdapter(this,
+                    friendAdapter = new FriendAdapter(this,
                             R.layout.cell,
-                            m_friends.getAll());
+                            friends);
 
                     setListAdapter(adapter);
 
