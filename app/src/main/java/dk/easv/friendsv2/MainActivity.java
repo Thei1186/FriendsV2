@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopUp(view);
             }
         });
         friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
@@ -57,25 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showPopUp(View v) {
-            PopupMenu popup = new PopupMenu(this, v);
-            MenuInflater inflater = popup.getMenuInflater();
-            inflater.inflate(R.menu.context_menu1, popup.getMenu());
-            popup.show();
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        Log.d(TAG, "Context menu created ");
-        if (v == txt1) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.context_menu1, menu);
-            Log.d(TAG, "inflaaate");
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu1, menu);
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
