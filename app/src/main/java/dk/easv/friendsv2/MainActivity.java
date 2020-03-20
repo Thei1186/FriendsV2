@@ -30,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         this.setTitle("Friends v2");
 
-        txt1.findViewById(R.id.txt1);
-        friendList.findViewById(R.id.list_friends);
+        txt1 = findViewById(R.id.txt1);
+        friendList = findViewById(R.id.list_friends);
 
 
         registerForContextMenu(txt1);
@@ -53,14 +54,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         Log.d(TAG, "Context menu created ");
 
-        if (v == txt1)
-        {
-            MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.context_menu1,menu);
-        }
+
     }
-/*
-    @Override
+
+  /*  @Override
     public void onListItemClick(ListView parent, View v, int position,
                                 long id) {
 
@@ -71,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         x.putExtra("position",position);
         startActivityForResult(x,SECOND_ACTIVITY);
         Log.d(TAG, "Detail activity is started");
-    }
-*/
+    }*/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SECOND_ACTIVITY) {
