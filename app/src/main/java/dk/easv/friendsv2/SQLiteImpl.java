@@ -1,10 +1,12 @@
 package dk.easv.friendsv2;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.easv.friendsv2.Model.BEFriend;
@@ -34,7 +36,19 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public List<BEFriend> selectAll() {
-        return null;
+        List<BEFriend> list = new ArrayList<BEFriend>();
+        Cursor cursor = mDatabase.query(TABLE_NAME, new String[] { "id", "name", "phone", "isFavorite", "photoUrl" },
+                null, null, null, null, "name");
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new BEFriend(cursor.getInt(0), cursor.getString(1), cursor.getString(2), Boolean.parseBoolean(cursor.getString(3)), cursor.getString(4)));
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+
+        return list;
     }
 
 
