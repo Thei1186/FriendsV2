@@ -14,7 +14,7 @@ import dk.easv.friendsv2.Model.BEFriend;
 public class SQLiteImpl implements IDataAccess {
 
     private static final String DATABASE_NAME = "sqlite.mDatabase";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String TABLE_NAME = "Friend";
 
     private SQLiteDatabase mDatabase;
@@ -66,7 +66,7 @@ public class SQLiteImpl implements IDataAccess {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
-                    + "(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, isFavorit BOOLEAN, photoUrl TEXT)");
+                    + "(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, isFavorite BOOLEAN, photoUrl TEXT)");
         }
 
         @Override
