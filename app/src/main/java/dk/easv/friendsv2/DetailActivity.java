@@ -57,8 +57,7 @@ public class DetailActivity extends AppCompatActivity {
 
         image = findViewById(R.id.iv_image);
         image.setImageResource(R.drawable.qmark);
-        Button photoButton = findViewById(R.id.btnPhoto);
-        photoButton.setOnClickListener(new View.OnClickListener() {
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCameraWithFileProvider();
@@ -87,7 +86,13 @@ public class DetailActivity extends AppCompatActivity {
         });
         Button cancelButton = findViewById(R.id.btnCancel);
         Button browserBtn = findViewById(R.id.btnBrowser);
+        setGUI();
+        browserBtn.setOnClickListener(new View.OnClickListener() {
 
+            public void onClick(View arg0) {
+                startBrowser();
+
+            }});
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,13 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         cbFavorite = findViewById(R.id.cbFavorite);
 
-        setGUI();
-        browserBtn.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View arg0) {
-                startBrowser();
-
-            }});
 
     }
 
