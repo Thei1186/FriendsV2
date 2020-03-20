@@ -261,13 +261,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setGUI() {
-        BEFriend f = (BEFriend) getIntent().getSerializableExtra("friend");
+        friend = (BEFriend) getIntent().getSerializableExtra("friend");
 
-        etName.setText(f.getName());
-        etPhone.setText(f.getPhone());
-        cbFavorite.setChecked(f.isFavorite());
-        if (!f.getPhotoUrl().isEmpty()){
-            image.setImageURI(Uri.parse(f.getPhotoUrl()));
+        etName.setText(friend.getName());
+        etPhone.setText(friend.getPhone());
+        cbFavorite.setChecked(friend.isFavorite());
+        if (!friend.getPhotoUrl().isEmpty()){
+            image.setImageURI(Uri.parse(friend.getPhotoUrl()));
         } else {
             image.setImageResource(R.drawable.qmark);
         }
@@ -275,9 +275,9 @@ public class DetailActivity extends AppCompatActivity {
 
     protected void onClickOK() {
         Intent data = new Intent();
-        friend = new BEFriend(String.valueOf(etName.getText()),
+        BEFriend updatedFriend = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
                 etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
-        data.putExtra("updatedFriend", friend);
+        data.putExtra("updatedFriend", updatedFriend);
         setResult(RESULT_OK, data);
         Log.d("Cake", "onClickOK: filepath = " + mFile.getAbsolutePath());
         finish();

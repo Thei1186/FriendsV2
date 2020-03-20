@@ -5,7 +5,7 @@ package dk.easv.friendsv2.Model;
 import java.io.Serializable;
 
 public class BEFriend implements Serializable {
-    private int id;
+    private int m_id;
     private String m_name;
     private String m_phone;
     private Boolean m_isFavorite;
@@ -30,7 +30,7 @@ public class BEFriend implements Serializable {
     }
     public String getPhotoUrl() { return m_photoUrl;}
     public void setPhotoUrl(String newUrl) { m_photoUrl = newUrl;}
-
+    public int getId() {return m_id;}
     public String getName() {
         return m_name;
     }
