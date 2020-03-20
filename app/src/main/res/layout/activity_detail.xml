@@ -76,9 +76,9 @@
             android:padding="5dip">
 
             <Button
-                android:id="@+id/btnPhoto"
-                android:layout_gravity="center"
-                android:text="Take Photo" />
+                android:id="@+id/btnBrowser"
+                android:text="Link"
+                />
         </TableRow>
 
         <TableRow
