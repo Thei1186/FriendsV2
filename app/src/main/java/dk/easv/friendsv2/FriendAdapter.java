@@ -11,13 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.easv.friendsv2.Model.BEFriend;
 
 public class FriendAdapter extends ArrayAdapter<BEFriend> {
-    private ArrayList<BEFriend> friendList;
+    private List<BEFriend> friendList;
 
-    public FriendAdapter(Context context, int resource, ArrayList<BEFriend> friendList) {
+    public FriendAdapter(Context context, int resource, List<BEFriend> friendList) {
         super(context, resource, friendList);
         this.friendList = friendList;
     }
