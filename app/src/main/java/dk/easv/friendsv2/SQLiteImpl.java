@@ -30,10 +30,11 @@ public class SQLiteImpl implements IDataAccess {
     }
 
     public long insert(BEFriend f) {
-        insertStmt.bindString(1, f.getName());
-        insertStmt.bindString(2, f.getPhone());
-        insertStmt.bindString(3, f.getPhotoUrl());
-        insertStmt.bindString(4, f.isFavorite().toString());
+        insertStmt.bindString(1, String.valueOf(f.getId()));
+        insertStmt.bindString(2, f.getName());
+        insertStmt.bindString(3, f.getPhone());
+        insertStmt.bindString(4, f.getPhotoUrl());
+        insertStmt.bindString(5, f.isFavorite().toString());
         return insertStmt.executeInsert();
     }
 

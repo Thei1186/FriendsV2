@@ -110,11 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case RESULT_FIRST_USER:
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
-                    friends.add(newFriend);
-
-                    friendAdapter = new FriendAdapter(this,
-                            R.layout.cell,
-                            friends);
+                    mDataAccess.insert(newFriend);
+                    friends = mDataAccess.selectAll();
 
                     friendList.setAdapter(adapter);
                 case RESULT_CANCELED:

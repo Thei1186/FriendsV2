@@ -39,14 +39,13 @@ public class DetailActivity extends AppCompatActivity {
     static int PERMISSION_TO_SMS_CODE = 1;
     static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE = 101;
     static int PERMISSION_REQUEST_CODE = 2;
-    static int ID = 0;
+
     String TAG = MainActivity.TAG;
     EditText etName;
     EditText etPhone;
     CheckBox cbFavorite;
     BEFriend friend;
     ImageView image;
-
     File mFile;
 
     @Override
@@ -301,16 +300,17 @@ public class DetailActivity extends AppCompatActivity {
             data.putExtra("updatedFriend", f);
             setResult(RESULT_OK, data);
         } else {
-            f = new BEFriend(++ID,String.valueOf(etName.getText()),
+            f = new BEFriend(1,String.valueOf(etName.getText()),
                     etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
             data.putExtra("newFriend", f);
-            Log.d(TAG, f.getName() + " Added");
+            Log.d(TAG, f.getName() + " Added with id: " + f.getId());
             setResult(RESULT_FIRST_USER, data);
         }
 
         Log.d("Cake", "onClickOK: filepath = " + mFile.getAbsolutePath());
         finish();
     }
+
 
     protected void onClickCancel() {
         setResult(RESULT_CANCELED);
