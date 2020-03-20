@@ -52,7 +52,7 @@ public class SQLiteImpl implements IDataAccess {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
-                    + "(id INTEGER PRIMARY KEY, name TEXT)");
+                    + "(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, isFavorit BOOLEAN, photoUrl TEXT)");
         }
 
         @Override
