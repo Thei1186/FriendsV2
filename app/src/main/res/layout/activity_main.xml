@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:text="text">
     </TextView>
 <ListView
     android:id="@+id/list_friends"

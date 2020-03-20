@@ -3,6 +3,7 @@ package dk.easv.friendsv2;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -41,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         mDataAccess = DataAccessFactory.getInstance(this);
         friends = mDataAccess.selectAll();
-
+        txt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openContextMenu(view);
+            }
+        });
         friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
 
         friendList.setAdapter(friendAdapter);
@@ -53,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         Log.d(TAG, "Context menu created ");
-
-        MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.context_menu1,menu);
-
+        if (v == txt1) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.context_menu1, menu);
+            Log.d(TAG, "inflaaate");
+        }
     }
 
   /*  @Override
