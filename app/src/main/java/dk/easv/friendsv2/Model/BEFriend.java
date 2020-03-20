@@ -38,5 +38,13 @@ public class BEFriend implements Serializable {
     public long getId() { return m_id;}
     public Boolean isFavorite() { return m_isFavorite; }
 
-
+    @Override
+    public String toString() {
+        return
+                "id=" + m_id +
+                ", name='" + m_name + '\'' +
+                ", phone='" + m_phone + '\'' +
+                ", isFavorite=" + m_isFavorite +
+                ", photoUrl='" + m_photoUrl + '\'';
+    }
 }

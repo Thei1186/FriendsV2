@@ -112,9 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
                     Log.d(TAG, "onActivityResult: id =" + newFriend.getId());
                     mDataAccess.insert(newFriend);
-                    friends = mDataAccess.selectAll();
-
-                    friendList.setAdapter(adapter);
+                    fillList();
                 case RESULT_CANCELED:
                     break;
                 default:
@@ -123,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+    void fillList() {
+        ArrayAdapter<BEFriend> a =
+                new FriendAdapter(this, R.layout.cell, mDataAccess.selectAll());
+        friendList.setAdapter(a);
     }
 
     private void addData(Intent x, BEFriend f) {
