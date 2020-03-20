@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -47,13 +48,20 @@ public class MainActivity extends AppCompatActivity {
         txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openContextMenu(view);
+                showPopUp(view);
             }
         });
         friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
 
         friendList.setAdapter(friendAdapter);
 
+    }
+
+    private void showPopUp(View v) {
+            PopupMenu popup = new PopupMenu(this, v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.context_menu1, popup.getMenu());
+            popup.show();
     }
 
     @Override
