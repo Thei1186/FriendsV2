@@ -23,10 +23,18 @@ public class SQLiteImpl implements IDataAccess {
     public SQLiteImpl(Context c) {
         OpenHelper openHelper = new OpenHelper(c);
         mDatabase = openHelper.getWritableDatabase();
+        String INSERT = "insert into " + TABLE_NAME
+                + "(name) values (?), (phone(?)), (isFavorite(?)), (photoUrl(?))";
+
+        insertStmt = mDatabase.compileStatement(INSERT);
     }
 
     public long insert(BEFriend f) {
-        return 0;
+        insertStmt.bindString(1, f.getName());
+        insertStmt.bindString(2, f.getPhone());
+        insertStmt.bindString(3, f.getPhotoUrl());
+        insertStmt.bindString(4, f.isFavorite().toString());
+        return insertStmt.executeInsert();
     }
 
 
