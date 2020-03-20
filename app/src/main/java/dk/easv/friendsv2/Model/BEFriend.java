@@ -5,21 +5,21 @@ package dk.easv.friendsv2.Model;
 import java.io.Serializable;
 
 public class BEFriend implements Serializable {
-
+    private int id;
     private String m_name;
     private String m_phone;
     private Boolean m_isFavorite;
     private String m_photoUrl;
 
-    public BEFriend( String name, String phone) {
-        this(name, phone, false, "");
+    public BEFriend(int id, String name, String phone) {
+        this(id,name, phone, false, "");
     }
 
-    public BEFriend( String name, String phone, boolean isFavorite) {
-        this(name, phone, isFavorite, "");
+    public BEFriend(int id, String name, String phone, boolean isFavorite) {
+        this(id, name, phone, isFavorite, "");
     }
 
-    public BEFriend(String name, String phone, Boolean isFavorite, String photoUrl) {
+    public BEFriend(int id, String name, String phone, Boolean isFavorite, String photoUrl) {
         m_name = name;
         m_phone = phone;
         m_isFavorite = isFavorite;
