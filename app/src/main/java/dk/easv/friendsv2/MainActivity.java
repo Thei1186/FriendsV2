@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     FriendAdapter friendAdapter;
     ListView friendList;
     TextView txt1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mDataAccess = DataAccessFactory.getInstance(this);
         friends = mDataAccess.selectAll();
 
-        friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
+        friendAdapter = new FriendAdapter(this, R.layout.cell, friends);
 
         friendList.setAdapter(friendAdapter);
 
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.create1:
                 Intent x = new Intent(this, DetailActivity.class);
                 Log.d(TAG, "Detail activity will be started");
-                x.putExtra("position",friends.size());
-                startActivityForResult(x,SECOND_ACTIVITY);
+                x.putExtra("position", friends.size());
+                startActivityForResult(x, SECOND_ACTIVITY);
                 return true;
             case R.id.delete1:
                 return true;
@@ -95,12 +96,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SECOND_ACTIVITY) {
             switch (resultCode) {
                 case RESULT_OK:
-                    BEFriend updatedFriend = (BEFriend)data.getExtras().getSerializable("updatedFriend");
-
+                    BEFriend updatedFriend = (BEFriend) data.getExtras().getSerializable("updatedFriend");
                     int position = data.getExtras().getInt("position");
                     friends.set(position, updatedFriend);
-
-
 
                     Log.d("XYZ", updatedFriend.getName());
                     friendAdapter = new FriendAdapter(this,
@@ -110,6 +108,15 @@ public class MainActivity extends AppCompatActivity {
                     friendList.setAdapter(adapter);
 
                     break;
+                case RESULT_FIRST_USER:
+                    BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
+                    friends.add(newFriend);
+
+                    friendAdapter = new FriendAdapter(this,
+                            R.layout.cell,
+                            friends);
+
+                    friendList.setAdapter(adapter);
                 case RESULT_CANCELED:
                     break;
                 default:
@@ -120,11 +127,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addData(Intent x, BEFriend f)
-    {
+    private void addData(Intent x, BEFriend f) {
         x.putExtra("friend", f);
     }
-
 
 
 }
