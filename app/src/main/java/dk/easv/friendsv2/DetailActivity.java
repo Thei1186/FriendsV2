@@ -262,14 +262,15 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setGUI() {
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
-
-        etName.setText(friend.getName());
-        etPhone.setText(friend.getPhone());
-        cbFavorite.setChecked(friend.isFavorite());
-        if (!friend.getPhotoUrl().isEmpty()){
-            image.setImageURI(Uri.parse(friend.getPhotoUrl()));
-        } else {
-            image.setImageResource(R.drawable.qmark);
+        if (friend != null) {
+            etName.setText(friend.getName());
+            etPhone.setText(friend.getPhone());
+            cbFavorite.setChecked(friend.isFavorite());
+            if (!friend.getPhotoUrl().isEmpty()) {
+                image.setImageURI(Uri.parse(friend.getPhotoUrl()));
+            } else {
+                image.setImageResource(R.drawable.qmark);
+            }
         }
     }
 

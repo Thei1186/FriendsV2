@@ -45,11 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDataAccess = DataAccessFactory.getInstance(this);
         friends = mDataAccess.selectAll();
-        txt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+
         friendAdapter = new FriendAdapter(this, R.layout.cell , friends);
 
         friendList.setAdapter(friendAdapter);
@@ -69,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.create1:
+                Intent x = new Intent(this, DetailActivity.class);
+                Log.d(TAG, "Detail activity will be started");
+                x.putExtra("position",friends.size());
+                startActivityForResult(x,SECOND_ACTIVITY);
                 return true;
             case R.id.delete1:
                 return true;
