@@ -39,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     static int PERMISSION_TO_SMS_CODE = 1;
     static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE = 101;
     static int PERMISSION_REQUEST_CODE = 2;
+    static int ID = 0;
     String TAG = MainActivity.TAG;
     EditText etName;
     EditText etPhone;
@@ -97,6 +98,7 @@ public class DetailActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etPhone = findViewById(R.id.etPhone);
         cbFavorite = findViewById(R.id.cbFavorite);
+
 
         setGUI();
 
@@ -276,10 +278,21 @@ public class DetailActivity extends AppCompatActivity {
 
     protected void onClickOK() {
         Intent data = new Intent();
-        BEFriend updatedFriend = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
-                etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
-        data.putExtra("updatedFriend", updatedFriend);
-        setResult(RESULT_OK, data);
+       BEFriend f;
+        if (friend != null)
+        {
+            f = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
+                    etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
+            data.putExtra("updatedFriend", f);
+            setResult(RESULT_OK, data);
+        } else {
+            f = new BEFriend(++ID,String.valueOf(etName.getText()),
+                    etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
+            data.putExtra("newFriend", f);
+            Log.d(TAG, f.getName() + " Added");
+            setResult(RESULT_FIRST_USER, data);
+        }
+
         Log.d("Cake", "onClickOK: filepath = " + mFile.getAbsolutePath());
         finish();
     }
