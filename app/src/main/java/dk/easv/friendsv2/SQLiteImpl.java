@@ -24,7 +24,7 @@ public class SQLiteImpl implements IDataAccess {
         OpenHelper openHelper = new OpenHelper(c);
         mDatabase = openHelper.getWritableDatabase();
         String INSERT = "insert into " + TABLE_NAME
-                + "(name) values (?), (phone(?)), (isFavorite(?)), (photoUrl(?))";
+                + "(id, name, phone, isFavorite, photoUrl) values (?,?, ? , ? ,?)";
 
         insertStmt = mDatabase.compileStatement(INSERT);
     }
