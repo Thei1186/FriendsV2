@@ -298,9 +298,10 @@ public class DetailActivity extends AppCompatActivity {
             f = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
                     etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
             data.putExtra("updatedFriend", f);
+            Log.d(TAG, "keke");
             setResult(RESULT_OK, data);
         } else {
-            f = new BEFriend(1,String.valueOf(etName.getText()),
+            f = new BEFriend(0,String.valueOf(etName.getText()),
                     etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
             data.putExtra("newFriend", f);
             Log.d(TAG, f.getName() + " Added with id: " + f.getId());

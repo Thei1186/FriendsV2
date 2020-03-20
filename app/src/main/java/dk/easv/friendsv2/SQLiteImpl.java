@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +25,19 @@ public class SQLiteImpl implements IDataAccess {
         OpenHelper openHelper = new OpenHelper(c);
         mDatabase = openHelper.getWritableDatabase();
         String INSERT = "insert into " + TABLE_NAME
-                + "(id, name, phone, isFavorite, photoUrl) values (?,?, ? , ? ,?)";
+                + "(name, phone, isFavorite, photoUrl) values (?,?, ? , ?)";
 
         insertStmt = mDatabase.compileStatement(INSERT);
     }
 
     public long insert(BEFriend f) {
-        insertStmt.bindString(1, String.valueOf(f.getId()));
-        insertStmt.bindString(2, f.getName());
-        insertStmt.bindString(3, f.getPhone());
-        insertStmt.bindString(4, f.getPhotoUrl());
-        insertStmt.bindString(5, f.isFavorite().toString());
-        return insertStmt.executeInsert();
+        insertStmt.bindString(1, f.getName());
+        insertStmt.bindString(2, f.getPhone());
+        insertStmt.bindString(3, f.getPhotoUrl());
+        insertStmt.bindString(4, f.isFavorite().toString());
+        long id = this.insertStmt.executeInsert();
+        f.setId(id);
+        return id;
     }
 
 

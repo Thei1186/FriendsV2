@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case RESULT_FIRST_USER:
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
+                    Log.d(TAG, "onActivityResult: id =" + newFriend.getId());
                     mDataAccess.insert(newFriend);
                     friends = mDataAccess.selectAll();
 
