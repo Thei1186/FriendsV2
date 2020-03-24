@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_OK:
                     BEFriend updatedFriend = (BEFriend) data.getExtras().getSerializable("updatedFriend");
                     int position = data.getExtras().getInt("position");
-                    friends.set(position, updatedFriend);
-                    
+                    //friends.set(position, updatedFriend);
+                    mDataAccess.update(updatedFriend);
 
                     fillList();
 

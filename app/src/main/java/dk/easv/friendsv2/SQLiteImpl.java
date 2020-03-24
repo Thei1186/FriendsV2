@@ -20,14 +20,17 @@ public class SQLiteImpl implements IDataAccess {
 
     private SQLiteDatabase mDatabase;
     private SQLiteStatement insertStmt;
+    private SQLiteStatement updateStmt;
 
     public SQLiteImpl(Context c) {
         OpenHelper openHelper = new OpenHelper(c);
         mDatabase = openHelper.getWritableDatabase();
         String INSERT = "insert into " + TABLE_NAME
                 + "(name, phone, isFavorite, photoUrl) values (?,?, ? , ?)";
-
+        String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?)" + ", phone = (?)" +
+                ", isFavorite = (?)" + ", photoUrl = (?)" + "WHERE id = (?)";
         insertStmt = mDatabase.compileStatement(INSERT);
+        updateStmt = mDatabase.compileStatement(UPDATE);
     }
 
     public long insert(BEFriend f) {
@@ -64,7 +67,12 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public void update(BEFriend f) {
-
+        updateStmt.bindString(1, f.getName());
+        updateStmt.bindString(2, f.getPhone());
+        updateStmt.bindString(3, f.isFavorite().toString());
+        updateStmt.bindString(4, f.getPhotoUrl());
+        updateStmt.bindLong(5,f.getId());
+        updateStmt.executeUpdateDelete();
     }
 
     private static class OpenHelper extends SQLiteOpenHelper {
