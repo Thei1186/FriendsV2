@@ -21,6 +21,7 @@ public class SQLiteImpl implements IDataAccess {
     private SQLiteDatabase mDatabase;
     private SQLiteStatement insertStmt;
     private SQLiteStatement updateStmt;
+    private SQLiteStatement deleteStmt;
 
     public SQLiteImpl(Context c) {
         OpenHelper openHelper = new OpenHelper(c);
@@ -29,8 +30,11 @@ public class SQLiteImpl implements IDataAccess {
                 + "(name, phone, isFavorite, photoUrl) values (?,?, ? , ?)";
         String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?)" + ", phone = (?)" +
                 ", isFavorite = (?)" + ", photoUrl = (?)" + "WHERE id = (?)";
+        String DELETE = "delete from " + TABLE_NAME + "WHERE id = (?)";
         insertStmt = mDatabase.compileStatement(INSERT);
         updateStmt = mDatabase.compileStatement(UPDATE);
+        deleteStmt =mDatabase.compileStatement(DELETE);
+
     }
 
     public long insert(BEFriend f) {
