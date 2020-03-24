@@ -139,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void fillList() {
+        friends = mDataAccess.selectAll();
         ArrayAdapter<BEFriend> a =
-                new FriendAdapter(this, R.layout.cell, mDataAccess.selectAll());
+                new FriendAdapter(this, R.layout.cell, friends);
         friendList.setAdapter(a);
     }
 
