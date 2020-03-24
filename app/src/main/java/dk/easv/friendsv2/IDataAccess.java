@@ -12,4 +12,6 @@ public interface IDataAccess {
     List<BEFriend> selectAll();
 
     void update(BEFriend f);
+
+    void delete(BEFriend f);
 }

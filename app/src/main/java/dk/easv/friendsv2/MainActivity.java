@@ -62,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Detail activity is started");
             }
         });
+
+        friendList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                friendList.setLongClickable(true);
+                BEFriend friend = friends.get(i);
+                mDataAccess.delete(friend);
+                Log.d("fff", "deleted" + friend);
+
+                fillList();
+                return true;
+            }
+        });
     }
 
     @Override
