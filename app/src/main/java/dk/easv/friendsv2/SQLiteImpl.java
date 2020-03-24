@@ -31,9 +31,6 @@ public class SQLiteImpl implements IDataAccess {
         String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?)" + ", phone = (?)" +
                 ", isFavorite = (?)" + ", photoUrl = (?)" + "WHERE id = (?)";
         String DELETE = "delete from " + TABLE_NAME + "WHERE id = (?)";
-        String UPDATE = "update " + TABLE_NAME
-                + " SET name = (?), phone = (?), isFavorite = (?), photoUrl = (?)"
-                + "WHERE id = (?)";
         insertStmt = mDatabase.compileStatement(INSERT);
         updateStmt = mDatabase.compileStatement(UPDATE);
         deleteStmt =mDatabase.compileStatement(DELETE);
