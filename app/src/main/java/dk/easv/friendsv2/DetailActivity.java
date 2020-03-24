@@ -55,6 +55,10 @@ public class DetailActivity extends AppCompatActivity {
         Log.d(TAG, "Detail Activity started");
         checkPermissions();
 
+        etName = findViewById(R.id.etName);
+        etPhone = findViewById(R.id.etPhone);
+        cbFavorite = findViewById(R.id.cbFavorite);
+
         image = findViewById(R.id.iv_image);
         image.setImageResource(R.drawable.qmark);
         image.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +104,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        etName = findViewById(R.id.etName);
-        etPhone = findViewById(R.id.etPhone);
-        cbFavorite = findViewById(R.id.cbFavorite);
+
 
 
         setGUI();
@@ -279,6 +281,7 @@ public class DetailActivity extends AppCompatActivity {
     private void setGUI() {
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
         if (friend != null) {
+            Log.d(TAG, "setGUI: name" + friend.getName());
             etName.setText(friend.getName());
             etPhone.setText(friend.getPhone());
             cbFavorite.setChecked(friend.isFavorite());
@@ -298,7 +301,7 @@ public class DetailActivity extends AppCompatActivity {
             f = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
                     etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
             data.putExtra("updatedFriend", f);
-            Log.d(TAG, "keke");
+            Log.d(TAG, "ImageUrl = " + f.getPhotoUrl());
             setResult(RESULT_OK, data);
         } else {
             f = new BEFriend(0,String.valueOf(etName.getText()),

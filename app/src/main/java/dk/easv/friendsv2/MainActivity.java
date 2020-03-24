@@ -50,6 +50,18 @@ public class MainActivity extends AppCompatActivity {
         friendAdapter = new FriendAdapter(this, R.layout.cell, friends);
 
         friendList.setAdapter(friendAdapter);
+        friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) {
+                Intent x = new Intent(MainActivity.this, DetailActivity.class);
+                Log.d(TAG, "Detail activity will be started");
+                BEFriend friend = friends.get(position);
+                addData(x, friend);
+                x.putExtra("position",position);
+                startActivityForResult(x,SECOND_ACTIVITY);
+                Log.d(TAG, "Detail activity is started");
+            }
+        });
 
     }
 
@@ -82,13 +94,7 @@ public class MainActivity extends AppCompatActivity {
     public void onListItemClick(ListView parent, View v, int position,
                                 long id) {
 
-        Intent x = new Intent(this, DetailActivity.class);
-        Log.d(TAG, "Detail activity will be started");
-        BEFriend friend = friends.get(position);
-        addData(x, friend);
-        x.putExtra("position",position);
-        startActivityForResult(x,SECOND_ACTIVITY);
-        Log.d(TAG, "Detail activity is started");
+
     }*/
 
     @Override
@@ -110,8 +116,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case RESULT_FIRST_USER:
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
-                    Log.d(TAG, "onActivityResult: id =" + newFriend.getId());
+
                     mDataAccess.insert(newFriend);
+                    Log.d(TAG, "onActivityResult: id =" + newFriend.getId());
+                    Log.d(TAG, "onActivityResult: PhotoUrl = " + newFriend.getPhotoUrl());
                     fillList();
                 case RESULT_CANCELED:
                     break;
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     void fillList() {
         ArrayAdapter<BEFriend> a =
                 new FriendAdapter(this, R.layout.cell, mDataAccess.selectAll());
