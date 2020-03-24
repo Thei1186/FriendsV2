@@ -30,7 +30,7 @@ public class SQLiteImpl implements IDataAccess {
                 + "(name, phone, isFavorite, photoUrl) values (?,?, ? , ?)";
         String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?)" + ", phone = (?)" +
                 ", isFavorite = (?)" + ", photoUrl = (?)" + "WHERE id = (?)";
-        String DELETE = "delete from " + TABLE_NAME + "WHERE id = (?)";
+        String DELETE = "delete from " + TABLE_NAME + " WHERE id = (?)";
         insertStmt = mDatabase.compileStatement(INSERT);
         updateStmt = mDatabase.compileStatement(UPDATE);
         deleteStmt =mDatabase.compileStatement(DELETE);
@@ -50,6 +50,11 @@ public class SQLiteImpl implements IDataAccess {
 
     public void deleteAll() {
         mDatabase.delete(TABLE_NAME, null, null);
+    }
+
+    public void delete(BEFriend f) {
+        deleteStmt.bindLong(1, f.getId());
+        deleteStmt.executeUpdateDelete();
     }
 
 
