@@ -65,11 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
         friendList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 friendList.setLongClickable(true);
-                BEFriend friend = friends.get(i);
+                BEFriend friend = friends.get(position);
                 mDataAccess.delete(friend);
-                Log.d("fff", "deleted" + friend);
 
                 fillList();
                 return true;
