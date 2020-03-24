@@ -105,13 +105,9 @@ public class MainActivity extends AppCompatActivity {
                     BEFriend updatedFriend = (BEFriend) data.getExtras().getSerializable("updatedFriend");
                     int position = data.getExtras().getInt("position");
                     friends.set(position, updatedFriend);
+                    
 
-                    Log.d("XYZ", updatedFriend.getName());
-                    friendAdapter = new FriendAdapter(this,
-                            R.layout.cell,
-                            friends);
-
-                    friendList.setAdapter(adapter);
+                    fillList();
 
                     break;
                 case RESULT_FIRST_USER:
