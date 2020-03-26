@@ -79,6 +79,9 @@
                 android:id="@+id/btnBrowser"
                 android:text="Link"
                 />
+            <Button
+                android:id="@+id/btnHome"
+                android:text="Home"/>
         </TableRow>
 
         <TableRow
