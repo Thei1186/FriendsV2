@@ -2,16 +2,14 @@ package dk.easv.friendsv2;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
-import android.nfc.Tag;
-import android.os.Debug;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,10 +25,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-
 import java.io.File;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +45,8 @@ public class DetailActivity extends AppCompatActivity {
     BEFriend friend;
     ImageView image;
     File mFile;
+    LocationListener locListener;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +105,53 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        Button homeBtn = findViewById(R.id.btnHome);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setHomeLocation();
+            }
+        });
 
         setGUI();
 
+    }
+
+    private void setHomeLocation() {
+        locationManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        locListener = null;
+
+        double latitude = 
+        double longitude =
+
+        Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
+                Toast.LENGTH_LONG).show();
+
+
+        requestGPSPermissions();
+    }
+
+    private void requestGPSPermissions() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d(TAG, "permission denied to USE GPS - requesting it");
+                String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+                return;
+
+            } else
+            {
+                Log.d(TAG, "permission to USE GPS granted!");
+            }
+        }
+        else
+            Log.d(TAG, "permission to USE GPS granted by manifest only");
 
     }
 
