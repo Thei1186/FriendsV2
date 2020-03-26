@@ -10,6 +10,9 @@ public class BEFriend implements Serializable {
     private String m_phone;
     private Boolean m_isFavorite;
     private String m_photoUrl;
+    private String m_Url;
+    private double m_longitude;
+    private double m_latitude;
 
     public BEFriend(long id, String name, String phone) {
         this(id,name, phone, false, "");
@@ -46,5 +49,29 @@ public class BEFriend implements Serializable {
                 ", phone='" + m_phone + '\'' +
                 ", isFavorite=" + m_isFavorite +
                 ", photoUrl='" + m_photoUrl + '\'';
+    }
+
+    public String getUrl() {
+        return m_Url;
+    }
+
+    public void setUrl(String m_Url) {
+        this.m_Url = m_Url;
+    }
+
+    public double getLongitude() {
+        return m_longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.m_longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return m_latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.m_latitude = latitude;
     }
 }
