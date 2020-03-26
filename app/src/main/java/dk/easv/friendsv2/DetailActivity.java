@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -99,7 +100,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 startBrowser();
 
-            }});
+            }
+        });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +118,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         setGUI();
+
     }
 
     private void setHomeLocation(Location loc) {
@@ -132,6 +135,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
                 Toast.LENGTH_LONG).show();
+
 
         requestGPSPermissions();
     }
@@ -316,8 +320,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void startBrowser()
-    {
+    private void startBrowser() {
         String url = "http://www.dr.dk";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
@@ -342,27 +345,19 @@ public class DetailActivity extends AppCompatActivity {
     protected void onClickOK() {
         Intent data = new Intent();
         BEFriend f;
-        String filepath;
-        if (mFile != null) {
-            filepath = mFile.getAbsolutePath();
-        } else
-        {
-            Uri path = Uri.parse("android.resource://dk.easv.friendsv2/" + R.drawable.qmark);
-            filepath = path.toString();
-        }
+        String filepath = getFilePath();
 
-        if (friend != null)
-        {
 
-               filepath = friend.getPhotoUrl();
-            f = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked());
+        if (friend != null) {
+            Log.d("fff", "onClickOK: friend " + filepath);
+            f = new BEFriend(friend.getId(), String.valueOf(etName.getText()),
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
             data.putExtra("updatedFriend", f);
 
             Log.d(TAG, "ImageUrl = " + f.getPhotoUrl());
             setResult(RESULT_OK, data);
         } else {
-            f = new BEFriend(0,String.valueOf(etName.getText()),
+            f = new BEFriend(0, String.valueOf(etName.getText()),
                     etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
             data.putExtra("newFriend", f);
             Log.d(TAG, f.getName() + " Added with id: " + f.getId());
@@ -371,6 +366,20 @@ public class DetailActivity extends AppCompatActivity {
 
         Log.d("Cake", "onClickOK: filepath = " + filepath);
         finish();
+    }
+
+    // Returns the filepath as a string
+    private String getFilePath() {
+        String filepath;
+        if (mFile != null) {
+            filepath = mFile.getAbsolutePath();
+        } else if (friend != null && !friend.getPhotoUrl().isEmpty()) {
+            filepath = friend.getPhotoUrl();
+        } else {
+            Uri path = Uri.parse("android.resource://dk.easv.friendsv2/" + R.drawable.qmark);
+            filepath = path.toString();
+        }
+        return filepath;
     }
 
 
