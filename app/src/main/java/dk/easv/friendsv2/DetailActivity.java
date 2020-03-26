@@ -138,9 +138,13 @@ public class DetailActivity extends AppCompatActivity {
         }
         double latitude = loc.getLatitude();
         double longitude = loc.getLongitude();
+        if (friend != null)
+        {
+            // Change to instance variable maybe
+            friend.setLatitude(latitude);
+            friend.setLongitude(longitude);
+        }
 
-        friend.setLatitude(latitude);
-        friend.setLongitude(longitude);
 
         Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
                 Toast.LENGTH_LONG).show();
