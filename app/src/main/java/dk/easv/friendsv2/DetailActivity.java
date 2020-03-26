@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -25,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE = 101;
     static int PERMISSION_REQUEST_CODE = 2;
 
+    NumberFormat formatter = new DecimalFormat("#.######");
     String TAG = MainActivity.TAG;
     EditText etName;
     EditText etPhone;
@@ -114,14 +118,17 @@ public class DetailActivity extends AppCompatActivity {
         setGUI();
     }
 
-    private void setHomeLocation() {
+    private void setHomeLocation(Location loc) {
         locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         locListener = null;
 
-        double latitude = 
-        double longitude =
+        double latitude = loc.getLatitude();
+        double longitude = loc.getLongitude();
+
+        friend.setLatitude(latitude);
+        friend.setLongitude(longitude);
 
         Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
                 Toast.LENGTH_LONG).show();
