@@ -26,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -118,15 +119,23 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         setGUI();
-
-    }
-
-    private void setHomeLocation(Location loc) {
         locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         locListener = null;
+        requestGPSPermissions();
 
+
+    }
+
+    private void setHomeLocation() {
+
+        Location loc = lastKnownLocation();
+        if (loc == null) {
+            Toast.makeText(getApplicationContext(), "Last known location is null",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         double latitude = loc.getLatitude();
         double longitude = loc.getLongitude();
 
@@ -135,9 +144,17 @@ public class DetailActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
                 Toast.LENGTH_LONG).show();
+    }
 
+    private Location lastKnownLocation() {
+        boolean GPSPermissionGiven = true;
 
-        requestGPSPermissions();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            GPSPermissionGiven = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED;
+        }
+        return GPSPermissionGiven ? locationManager
+                .getLastKnownLocation(LocationManager.GPS_PROVIDER) : null;
     }
 
     private void requestGPSPermissions() {
@@ -152,12 +169,10 @@ public class DetailActivity extends AppCompatActivity {
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
                 return;
 
-            } else
-            {
+            } else {
                 Log.d(TAG, "permission to USE GPS granted!");
             }
-        }
-        else
+        } else
             Log.d(TAG, "permission to USE GPS granted by manifest only");
 
     }
