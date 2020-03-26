@@ -6,16 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 
 import java.io.File;
 import java.io.Serializable;
@@ -238,6 +240,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE) {
             if (resultCode == RESULT_OK) {
                 image.setImageURI(Uri.fromFile(mFile));
@@ -295,23 +298,35 @@ public class DetailActivity extends AppCompatActivity {
 
     protected void onClickOK() {
         Intent data = new Intent();
-       BEFriend f;
+        BEFriend f;
+        String filepath;
+        if (mFile != null) {
+            filepath = mFile.getAbsolutePath();
+        } else
+        {
+            Uri path = Uri.parse("android.resource://dk.easv.friendsv2/" + R.drawable.qmark);
+            filepath = path.toString();
+        }
+
         if (friend != null)
         {
+
+               filepath = friend.getPhotoUrl();
             f = new BEFriend(friend.getId(),String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
+                    etPhone.getText().toString(), cbFavorite.isChecked());
             data.putExtra("updatedFriend", f);
+
             Log.d(TAG, "ImageUrl = " + f.getPhotoUrl());
             setResult(RESULT_OK, data);
         } else {
             f = new BEFriend(0,String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), mFile.getAbsolutePath());
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
             data.putExtra("newFriend", f);
             Log.d(TAG, f.getName() + " Added with id: " + f.getId());
             setResult(RESULT_FIRST_USER, data);
         }
 
-        Log.d("Cake", "onClickOK: filepath = " + mFile.getAbsolutePath());
+        Log.d("Cake", "onClickOK: filepath = " + filepath);
         finish();
     }
 

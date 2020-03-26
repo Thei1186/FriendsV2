@@ -76,6 +76,7 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public void update(BEFriend f) {
+        Log.d("fff", "update: filepath: " + f.getPhotoUrl());
         updateStmt.bindString(1, f.getName());
         updateStmt.bindString(2, f.getPhone());
         updateStmt.bindString(3, f.isFavorite().toString());

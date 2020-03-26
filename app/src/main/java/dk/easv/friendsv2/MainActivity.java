@@ -3,9 +3,7 @@ package dk.easv.friendsv2;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
+
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -15,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SECOND_ACTIVITY) {
             switch (resultCode) {
                 case RESULT_OK:
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     int position = data.getExtras().getInt("position");
                     //friends.set(position, updatedFriend);
                     mDataAccess.update(updatedFriend);
-
+                    Log.d("fff", "main: filepath: " + updatedFriend.getPhotoUrl());
                     fillList();
 
                     break;
@@ -125,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
 
                     mDataAccess.insert(newFriend);
-                    Log.d(TAG, "onActivityResult: id =" + newFriend.getId());
-                    Log.d(TAG, "onActivityResult: PhotoUrl = " + newFriend.getPhotoUrl());
+                    Log.d("fff", "onActivityResult: id =" + newFriend.getId());
+                    Log.d("fff", "onActivityResult: PhotoUrl = " + newFriend.getPhotoUrl());
                     fillList();
                 case RESULT_CANCELED:
                     break;
