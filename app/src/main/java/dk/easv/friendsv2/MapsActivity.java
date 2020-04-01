@@ -15,6 +15,7 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -60,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions friend_marker = new MarkerOptions().position(friendLoc).title("Your friend lives here");
         mMap.addMarker(friend_marker);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLoc, 14F));
     }
 
     @Override
