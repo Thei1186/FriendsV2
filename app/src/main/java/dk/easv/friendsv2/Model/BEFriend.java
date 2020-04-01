@@ -13,6 +13,8 @@ public class BEFriend implements Serializable {
     private String m_Url;
     private double m_longitude;
     private double m_latitude;
+    private double m_homeLatitude;
+    private double m_homeLongitude;
 
     public BEFriend(long id, String name, String phone) {
         this(id,name, phone, false, "");
@@ -73,5 +75,21 @@ public class BEFriend implements Serializable {
 
     public void setLatitude(double latitude) {
         this.m_latitude = latitude;
+    }
+
+    public double getM_homeLatitude() {
+        return m_homeLatitude;
+    }
+
+    public void setM_homeLatitude(double m_homeLatitude) {
+        this.m_homeLatitude = m_homeLatitude;
+    }
+
+    public double getM_homeLongitude() {
+        return m_homeLongitude;
+    }
+
+    public void setM_homeLongitude(double m_homeLongitude) {
+        this.m_homeLongitude = m_homeLongitude;
     }
 }
