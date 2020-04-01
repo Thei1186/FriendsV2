@@ -16,20 +16,20 @@ public class BEFriend implements Serializable {
     private double m_homeLatitude;
     private double m_homeLongitude;
 
-    public BEFriend(long id, String name, String phone) {
-        this(id,name, phone, false, "");
-    }
-
-    public BEFriend(long id, String name, String phone, boolean isFavorite) {
-        this(id, name, phone, isFavorite, "");
-    }
-
     public BEFriend(long id, String name, String phone, Boolean isFavorite, String photoUrl) {
+        this(id,name,phone,isFavorite,photoUrl, 0.0,0.0);
+    }
+
+    public BEFriend(long id, String name, String phone, Boolean isFavorite, String photoUrl,
+                    double homeLatitude, double homeLongitude) {
+
         m_id = id;
         m_name = name;
         m_phone = phone;
         m_isFavorite = isFavorite;
         m_photoUrl = photoUrl;
+        m_homeLatitude = homeLatitude;
+        m_homeLongitude = homeLongitude;
     }
     public String getPhone() {
         return m_phone;

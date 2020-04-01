@@ -15,7 +15,7 @@ import dk.easv.friendsv2.Model.BEFriend;
 public class SQLiteImpl implements IDataAccess {
 
     private static final String DATABASE_NAME = "sqlite.mDatabase";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 7;
     private static final String TABLE_NAME = "Friend";
 
     private SQLiteDatabase mDatabase;
@@ -27,9 +27,11 @@ public class SQLiteImpl implements IDataAccess {
         OpenHelper openHelper = new OpenHelper(c);
         mDatabase = openHelper.getWritableDatabase();
         String INSERT = "insert into " + TABLE_NAME
-                + "(name, phone, isFavorite, photoUrl) values (?,?, ? , ?)";
-        String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?)" + ", phone = (?)" +
-                ", isFavorite = (?)" + ", photoUrl = (?)" + "WHERE id = (?)";
+                + "(name, phone, isFavorite, photoUrl, homeLatitude, homeLongitude)" +
+                " values (?,?, ? , ?,?,?)";
+        String UPDATE = "update " + TABLE_NAME  +" SET " + "name = (?), phone = (?)," +
+                " isFavorite = (?), photoUrl = (?), homeLatitude = (?), homeLongitude = (?)"
+                + "WHERE id = (?)";
         String DELETE = "delete from " + TABLE_NAME + " WHERE id = (?)";
         insertStmt = mDatabase.compileStatement(INSERT);
         updateStmt = mDatabase.compileStatement(UPDATE);
@@ -42,6 +44,8 @@ public class SQLiteImpl implements IDataAccess {
         insertStmt.bindString(2, f.getPhone());
         insertStmt.bindString(3, f.isFavorite().toString());
         insertStmt.bindString(4, f.getPhotoUrl());
+        insertStmt.bindDouble(5, f.getHomeLatitude());
+        insertStmt.bindDouble(6, f.getHomeLongitude());
         long id = this.insertStmt.executeInsert();
         f.setId(id);
         return id;
@@ -64,7 +68,9 @@ public class SQLiteImpl implements IDataAccess {
                 null, null, null, null, "name");
         if (cursor.moveToFirst()) {
             do {
-                list.add(new BEFriend(cursor.getInt(0), cursor.getString(1), cursor.getString(2), Boolean.parseBoolean(cursor.getString(3)), cursor.getString(4)));
+                list.add(new BEFriend(cursor.getInt(0), cursor.getString(1),
+                        cursor.getString(2), Boolean.parseBoolean(cursor.getString(3)),
+                        cursor.getString(4)));
             } while (cursor.moveToNext());
         }
         if (!cursor.isClosed()) {
@@ -76,12 +82,14 @@ public class SQLiteImpl implements IDataAccess {
 
 
     public void update(BEFriend f) {
-        Log.d("fff", "update: filepath: " + f.getPhotoUrl());
         updateStmt.bindString(1, f.getName());
         updateStmt.bindString(2, f.getPhone());
         updateStmt.bindString(3, f.isFavorite().toString());
         updateStmt.bindString(4, f.getPhotoUrl());
-        updateStmt.bindLong(5,f.getId());
+        updateStmt.bindDouble(5, f.getHomeLatitude());
+        updateStmt.bindDouble(6, f.getHomeLongitude());
+        updateStmt.bindLong(7, f.getId());
+        Log.d("TAG", "update: " + f.getHomeLongitude());
         updateStmt.executeUpdateDelete();
     }
 
@@ -95,7 +103,8 @@ public class SQLiteImpl implements IDataAccess {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
-                    + "(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, isFavorite BOOLEAN, photoUrl TEXT)");
+                    + "(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, isFavorite BOOLEAN, " +
+                    "photoUrl TEXT, homeLatitude TEXT, homeLongitude TEXT)");
         }
 
         @Override
