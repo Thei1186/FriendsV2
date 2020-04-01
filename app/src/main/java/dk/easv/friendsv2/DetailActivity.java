@@ -118,6 +118,14 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        Button showLocBtn = findViewById(R.id.showLoc);
+        showLocBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+
         setGUI();
         locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);

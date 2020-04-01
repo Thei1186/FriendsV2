@@ -82,6 +82,9 @@
             <Button
                 android:id="@+id/btnHome"
                 android:text="Home"/>
+            <Button
+                android:id="@+id/showLoc"
+                android:text="Show"/>
         </TableRow>
 
         <TableRow
