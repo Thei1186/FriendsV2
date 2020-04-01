@@ -27,6 +27,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -123,11 +125,13 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Creates an Intent that will load a map with a friends home location
-                Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(friend.getHomeLatitude() + "," + friend.getHomeLongitude()));
+                double friendHomeLat = friend.getHomeLatitude();
+                double friendHomeLon = friend.getHomeLongitude();
                 Intent mapIntent = new Intent(DetailActivity.this, MapsActivity.class);
                 mapIntent.setPackage("com.google.android.apps.maps");
+                mapIntent.putExtra("FriendLat", friendHomeLat);
+                mapIntent.putExtra("FriendLong", friendHomeLon);
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    Log.d("GGG", "start intent" + mapUri);
                     startActivity(mapIntent);
                 }
             }

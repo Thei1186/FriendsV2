@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -47,8 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
-        LatLng friendLoc = new LatLng(55.473939, 8.435959);
+        double friendLat = getIntent().getDoubleExtra("FriendLat", 0.0);
+        double friendLon = getIntent().getDoubleExtra("FriendLong", 0.0);
+        LatLng friendLoc = new LatLng(friendLat, friendLon);
         mMap.setMyLocationEnabled(true);
 
         mMap.setOnMyLocationButtonClickListener(this);
@@ -56,7 +60,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions friend_marker = new MarkerOptions().position(friendLoc).title("Your friend lives here");
         mMap.addMarker(friend_marker);
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
