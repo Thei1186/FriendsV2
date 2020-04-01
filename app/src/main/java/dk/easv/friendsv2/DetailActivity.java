@@ -124,7 +124,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Creates an Intent that will load a map with a friends home location
                 Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(friend.getHomeLatitude() + "," + friend.getHomeLongitude()));
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+                Intent mapIntent = new Intent(DetailActivity.this, MapsActivity.class);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
                     Log.d("GGG", "start intent" + mapUri);
