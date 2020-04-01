@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions friend_marker = new MarkerOptions().position(friendLoc).title("Your friend lives here");
         mMap.addMarker(friend_marker);
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
