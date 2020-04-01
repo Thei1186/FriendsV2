@@ -122,11 +122,14 @@ public class DetailActivity extends AppCompatActivity {
         showLocBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Creates an Intent that will load a map of San Francisco
-                Uri gmmIntentUri = Uri.parse("geo:" + friend.getHomeLatitude() + "," + friend.getHomeLongitude());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                // Creates an Intent that will load a map with a friends home location
+                Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(friend.getHomeLatitude() + "," + friend.getHomeLongitude()));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    Log.d("GGG", "start intent" + mapUri);
+                    startActivity(mapIntent);
+                }
             }
         });
 

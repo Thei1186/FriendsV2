@@ -25,7 +25,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     BEFriend friend;
-    private final LatLng friendLoc = new LatLng(friend.getHomeLatitude(), friend.getHomeLongitude());
+    private final LatLng friendLoc = new LatLng(55.473939, 8.435959);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
