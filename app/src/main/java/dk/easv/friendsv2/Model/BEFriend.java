@@ -77,19 +77,19 @@ public class BEFriend implements Serializable {
         this.m_latitude = latitude;
     }
 
-    public double getM_homeLatitude() {
+    public double getHomeLatitude() {
         return m_homeLatitude;
     }
 
-    public void setM_homeLatitude(double m_homeLatitude) {
+    public void setHomeLatitude(double m_homeLatitude) {
         this.m_homeLatitude = m_homeLatitude;
     }
 
-    public double getM_homeLongitude() {
+    public double getHomeLongitude() {
         return m_homeLongitude;
     }
 
-    public void setM_homeLongitude(double m_homeLongitude) {
+    public void setHomeLongitude(double m_homeLongitude) {
         this.m_homeLongitude = m_homeLongitude;
     }
 }

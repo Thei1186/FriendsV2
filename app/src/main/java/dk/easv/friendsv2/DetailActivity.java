@@ -141,8 +141,8 @@ public class DetailActivity extends AppCompatActivity {
         if (friend != null)
         {
             // Change to instance variable maybe
-            friend.setLatitude(latitude);
-            friend.setLongitude(longitude);
+            friend.setHomeLatitude(latitude);
+            friend.setHomeLongitude(longitude);
         }
 
 
