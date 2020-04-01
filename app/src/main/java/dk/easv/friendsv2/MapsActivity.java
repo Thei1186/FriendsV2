@@ -13,14 +13,18 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import dk.easv.friendsv2.Model.BEFriend;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener
 {
 
     private GoogleMap mMap;
-    IViewCallBack m_view;
+    BEFriend friend;
+    private final LatLng friendLoc = new LatLng(friend.getHomeLatitude(), friend.getHomeLongitude());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         mMap.setMyLocationEnabled(true);
 
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
+
+        MarkerOptions friend_marker = new MarkerOptions().position(friendLoc).title("Your friend lives here");
+        mMap.addMarker(friend_marker);
     }
 
     @Override
