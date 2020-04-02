@@ -16,6 +16,7 @@ import java.util.List;
 import dk.easv.friendsv2.Model.BEFriend;
 
 public class FriendAdapter extends ArrayAdapter<BEFriend> {
+    // List of BEFriends gotten from the database
     private List<BEFriend> friendList;
 
     public FriendAdapter(Context context, int resource, List<BEFriend> friendList) {
@@ -23,7 +24,7 @@ public class FriendAdapter extends ArrayAdapter<BEFriend> {
         this.friendList = friendList;
     }
 
-
+    // Constructs the cells that will be added by the adapter
     @Override
     public View getView(int position, View v, ViewGroup parent) {
         if (v == null) {
