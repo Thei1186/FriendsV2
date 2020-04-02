@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 BEFriend friend = friends.get(position);
                 Log.d(TAG, "onItemLongClick: " + friend.getHomeLongitude());
                 mDataAccess.delete(friend);
-
                 fillList();
                 return true;
             }
@@ -97,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(x, SECOND_ACTIVITY);
                 return true;
             case R.id.delete1:
-                return true;
+                mDataAccess.deleteAll();
+                fillList();
             default:
                 return super.onContextItemSelected(item);
         }
