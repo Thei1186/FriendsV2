@@ -3,8 +3,6 @@
 
     <item android:id="@+id/create1" android:title="Create" />
 
-    <item android:id="@+id/update1" android:title="Update" />
-
     <item android:id="@+id/delete1" android:title="Delete All" />
 
 </menu>
