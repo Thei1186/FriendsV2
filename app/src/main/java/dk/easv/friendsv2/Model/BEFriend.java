@@ -45,12 +45,18 @@ public class BEFriend implements Serializable {
 
     @Override
     public String toString() {
-        return
-                "id=" + m_id +
-                ", name='" + m_name + '\'' +
-                ", phone='" + m_phone + '\'' +
-                ", isFavorite=" + m_isFavorite +
-                ", photoUrl='" + m_photoUrl + '\'';
+        return "BEFriend{" +
+                "m_id=" + m_id +
+                ", m_name='" + m_name + '\'' +
+                ", m_phone='" + m_phone + '\'' +
+                ", m_isFavorite=" + m_isFavorite +
+                ", m_photoUrl='" + m_photoUrl + '\'' +
+                ", m_Url='" + m_Url + '\'' +
+                ", m_longitude=" + m_longitude +
+                ", m_latitude=" + m_latitude +
+                ", m_homeLatitude=" + m_homeLatitude +
+                ", m_homeLongitude=" + m_homeLongitude +
+                '}';
     }
 
     public String getUrl() {

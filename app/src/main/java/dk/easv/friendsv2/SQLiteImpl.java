@@ -13,14 +13,25 @@ import java.util.List;
 import dk.easv.friendsv2.Model.BEFriend;
 
 public class SQLiteImpl implements IDataAccess {
-
+    // The name of the database
     private static final String DATABASE_NAME = "sqlite.mDatabase";
+
+    // The version of the database. This should be changed whenever the tables need to be updated
+    // Since changing this calls the onUpgrade method of the OpenHelper Class
     private static final int DATABASE_VERSION = 7;
+
+    // A static string for the table name  which is used to define the name of the table in various places
+    // having it as a instance variable allows easy editing of the table name without having to
+    // change it in several locations
     private static final String TABLE_NAME = "Friend";
 
+    // The database on which statements are called
     private SQLiteDatabase mDatabase;
+    // Insert statement for creating friends
     private SQLiteStatement insertStmt;
+    // Update statement for updating a specific friend
     private SQLiteStatement updateStmt;
+    // Delete statement for deleting a specific friend
     private SQLiteStatement deleteStmt;
 
     public SQLiteImpl(Context c) {
@@ -39,6 +50,7 @@ public class SQLiteImpl implements IDataAccess {
 
     }
 
+    // Creates a new friend in the database
     public long insert(BEFriend f) {
         insertStmt.bindString(1, f.getName());
         insertStmt.bindString(2, f.getPhone());
@@ -51,26 +63,28 @@ public class SQLiteImpl implements IDataAccess {
         return id;
     }
 
-
+    // This method deletes all friends currently stored in the database
     public void deleteAll() {
         mDatabase.delete(TABLE_NAME, null, null);
     }
 
+    // Delete a friend based on their ID
     public void delete(BEFriend f) {
         deleteStmt.bindLong(1, f.getId());
         deleteStmt.executeUpdateDelete();
     }
 
-
+    // Selects all friends in the database by getting all the values from the friends table
+    // with a Cursor which creates a new friend and puts it in a list which is then returned.
     public List<BEFriend> selectAll() {
         List<BEFriend> list = new ArrayList<BEFriend>();
-        Cursor cursor = mDatabase.query(TABLE_NAME, new String[] { "id", "name", "phone", "isFavorite", "photoUrl" },
+        Cursor cursor = mDatabase.query(TABLE_NAME, new String[] { "id", "name", "phone", "isFavorite", "photoUrl", "homeLatitude", "homeLongitude"},
                 null, null, null, null, "name");
         if (cursor.moveToFirst()) {
             do {
                 list.add(new BEFriend(cursor.getInt(0), cursor.getString(1),
                         cursor.getString(2), Boolean.parseBoolean(cursor.getString(3)),
-                        cursor.getString(4)));
+                        cursor.getString(4), cursor.getDouble(5), cursor.getDouble(6)));
             } while (cursor.moveToNext());
         }
         if (!cursor.isClosed()) {
@@ -80,7 +94,7 @@ public class SQLiteImpl implements IDataAccess {
         return list;
     }
 
-
+    // Updates a friend using the update statement string defined in the constructor
     public void update(BEFriend f) {
         updateStmt.bindString(1, f.getName());
         updateStmt.bindString(2, f.getPhone());
@@ -89,7 +103,7 @@ public class SQLiteImpl implements IDataAccess {
         updateStmt.bindDouble(5, f.getHomeLatitude());
         updateStmt.bindDouble(6, f.getHomeLongitude());
         updateStmt.bindLong(7, f.getId());
-        Log.d("TAG", "update: " + f.getHomeLongitude());
+        Log.d("Friend2", "update: " + f);
         updateStmt.executeUpdateDelete();
     }
 
@@ -100,6 +114,7 @@ public class SQLiteImpl implements IDataAccess {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        // Initial setup of the database
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME
@@ -107,6 +122,7 @@ public class SQLiteImpl implements IDataAccess {
                     "photoUrl TEXT, homeLatitude TEXT, homeLongitude TEXT)");
         }
 
+        // Refreshes the database by dropping the friends table if it exists and creates it anew
         @Override
         public void onUpgrade(SQLiteDatabase db,
                               int oldVersion, int newVersion) {

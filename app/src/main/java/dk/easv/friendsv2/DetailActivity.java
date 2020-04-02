@@ -54,6 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     File mFile;
     LocationListener locListener;
     LocationManager locationManager;
+    Double homeLatitude, homeLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,18 +156,17 @@ public class DetailActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             return;
         }
-        double latitude = loc.getLatitude();
-        double longitude = loc.getLongitude();
-        if (friend != null)
-        {
+        homeLatitude = loc.getLatitude();
+        homeLongitude = loc.getLongitude();
+        if (friend != null) {
             // Change to instance variable maybe
-            friend.setHomeLatitude(latitude);
-            friend.setHomeLongitude(longitude);
+            friend.setHomeLatitude(homeLatitude);
+            friend.setHomeLongitude(homeLongitude);
         }
 
 
-        Toast.makeText(getApplicationContext(), "Home Location: " + latitude + longitude,
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Home Location: " + homeLatitude + homeLongitude,
+                Toast.LENGTH_SHORT).show();
     }
 
     private Location lastKnownLocation() {
@@ -387,22 +387,22 @@ public class DetailActivity extends AppCompatActivity {
 
 
         if (friend != null) {
-            Log.d("fff", "onClickOK: friend " + filepath);
+
             f = new BEFriend(friend.getId(), String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath,
+                    friend.getHomeLatitude(), friend.getHomeLongitude());
             data.putExtra("updatedFriend", f);
 
-            Log.d(TAG, "ImageUrl = " + f.getPhotoUrl());
+            Log.d(TAG, "onClickOK updated: Friend = " + f);
             setResult(RESULT_OK, data);
         } else {
             f = new BEFriend(0, String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath, homeLatitude, homeLongitude);
             data.putExtra("newFriend", f);
-            Log.d(TAG, f.getName() + " Added with id: " + f.getId());
+            Log.d(TAG, "onClickOK: new: Friend = " + f);
             setResult(RESULT_FIRST_USER, data);
         }
 
-        Log.d("Cake", "onClickOK: filepath = " + filepath);
         finish();
     }
 

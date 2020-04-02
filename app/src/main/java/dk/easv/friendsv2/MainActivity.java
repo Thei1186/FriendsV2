@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent x = new Intent(MainActivity.this, DetailActivity.class);
                 Log.d(TAG, "Detail activity will be started");
                 BEFriend friend = friends.get(position);
+                Log.d(TAG, "Detail friend Homelatitude: " + friend.getHomeLatitude() + "Homelongitude: " + friend.getHomeLongitude() );
                 addData(x, friend);
                 x.putExtra("position",position);
                 startActivityForResult(x,SECOND_ACTIVITY);
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 friendList.setLongClickable(true);
                 BEFriend friend = friends.get(position);
+                Log.d(TAG, "onItemLongClick: " + friend.getHomeLongitude());
                 mDataAccess.delete(friend);
 
                 fillList();
