@@ -1,9 +1,7 @@
 package dk.easv.friendsv2;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -13,12 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import dk.easv.friendsv2.Model.BEFriend;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,10 +21,9 @@ public class MainActivity extends AppCompatActivity {
     int SECOND_ACTIVITY = 2;
 
     List<BEFriend> friends;
-    ArrayAdapter adapter;
     FriendAdapter friendAdapter;
     ListView friendList;
-    TextView txt1;
+    TextView menu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +31,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setTitle("Friends v2");
 
-        txt1 = findViewById(R.id.txt1);
+        menu = findViewById(R.id.menu);
         friendList = findViewById(R.id.list_friends);
 
-
-        registerForContextMenu(txt1);
+        registerForContextMenu(menu);
 
         mDataAccess = DataAccessFactory.getInstance(this);
         friends = mDataAccess.selectAll();
@@ -50,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         friendAdapter = new FriendAdapter(this, R.layout.cell, friends);
 
         friendList.setAdapter(friendAdapter);
+
+
         friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) {
@@ -57,19 +51,20 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Detail activity will be started");
                 BEFriend friend = friends.get(position);
                 Log.d(TAG, "Detail friend Homelatitude: " + friend.getHomeLatitude() + "Homelongitude: " + friend.getHomeLongitude() );
-                addData(x, friend);
+                x.putExtra("friend", friend);
                 x.putExtra("position",position);
                 startActivityForResult(x,SECOND_ACTIVITY);
                 Log.d(TAG, "Detail activity is started");
             }
         });
 
+        // Sets a listener on the friend list. Get the position of a selected friend.
+        // If the click is long the friend will be deleted.
         friendList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 friendList.setLongClickable(true);
                 BEFriend friend = friends.get(position);
-                Log.d(TAG, "onItemLongClick: " + friend.getHomeLongitude());
                 mDataAccess.delete(friend);
                 fillList();
                 return true;
@@ -77,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // creates the menu
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -85,13 +81,12 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.context_menu1, menu);
     }
 
+    // Triggers the selected item in the menu.
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.create1:
                 Intent x = new Intent(this, DetailActivity.class);
-                Log.d(TAG, "Detail activity will be started");
                 x.putExtra("position", friends.size());
                 startActivityForResult(x, SECOND_ACTIVITY);
                 return true;
@@ -103,13 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-  /*  @Override
-    public void onListItemClick(ListView parent, View v, int position,
-                                long id) {
-
-
-    }*/
-
+    // Get result from Details Activity. If a user exists the user will be updated, if a user does not exist a new user will be created.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,13 +106,11 @@ public class MainActivity extends AppCompatActivity {
             switch (resultCode) {
                 case RESULT_OK:
                     BEFriend updatedFriend = (BEFriend) data.getExtras().getSerializable("updatedFriend");
-                    int position = data.getExtras().getInt("position");
-                    //friends.set(position, updatedFriend);
                     mDataAccess.update(updatedFriend);
                     Log.d("fff", "main: filepath: " + updatedFriend.getPhotoUrl());
                     fillList();
-
                     break;
+
                 case RESULT_FIRST_USER:
                     BEFriend newFriend = (BEFriend) data.getExtras().getSerializable("newFriend");
 
@@ -134,23 +121,15 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_CANCELED:
                     break;
                 default:
-
             }
         }
-
-
     }
 
+    // Fills the friend list. Used for updating the friend list after changes happen.
     void fillList() {
         friends = mDataAccess.selectAll();
         ArrayAdapter<BEFriend> a =
                 new FriendAdapter(this, R.layout.cell, friends);
         friendList.setAdapter(a);
     }
-
-    private void addData(Intent x, BEFriend f) {
-        x.putExtra("friend", f);
-    }
-
-
 }

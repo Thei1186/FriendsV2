@@ -1,7 +1,5 @@
 package dk.easv.friendsv2.Model;
 
-
-
 import java.io.Serializable;
 
 public class BEFriend implements Serializable {
@@ -11,8 +9,6 @@ public class BEFriend implements Serializable {
     private Boolean m_isFavorite;
     private String m_photoUrl;
     private String m_Url;
-    private double m_longitude;
-    private double m_latitude;
     private double m_homeLatitude;
     private double m_homeLongitude;
 
@@ -35,7 +31,6 @@ public class BEFriend implements Serializable {
         return m_phone;
     }
     public String getPhotoUrl() { return m_photoUrl;}
-    public void setPhotoUrl(String newUrl) { m_photoUrl = newUrl;}
     public String getName() {
         return m_name;
     }
@@ -52,8 +47,6 @@ public class BEFriend implements Serializable {
                 ", m_isFavorite=" + m_isFavorite +
                 ", m_photoUrl='" + m_photoUrl + '\'' +
                 ", m_Url='" + m_Url + '\'' +
-                ", m_longitude=" + m_longitude +
-                ", m_latitude=" + m_latitude +
                 ", m_homeLatitude=" + m_homeLatitude +
                 ", m_homeLongitude=" + m_homeLongitude +
                 '}';
@@ -65,22 +58,6 @@ public class BEFriend implements Serializable {
 
     public void setUrl(String m_Url) {
         this.m_Url = m_Url;
-    }
-
-    public double getLongitude() {
-        return m_longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.m_longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return m_latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.m_latitude = latitude;
     }
 
     public double getHomeLatitude() {
