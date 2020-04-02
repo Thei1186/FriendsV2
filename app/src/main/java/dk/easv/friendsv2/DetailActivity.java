@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -27,11 +26,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
+
 
 import java.io.File;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,16 +41,27 @@ public class DetailActivity extends AppCompatActivity {
     static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE = 101;
     static int PERMISSION_REQUEST_CODE = 2;
 
-    NumberFormat formatter = new DecimalFormat("#.######");
+    // TAG used for logging
     String TAG = MainActivity.TAG;
-    EditText etName;
-    EditText etPhone;
+
+    // Edit text fields for name and phone number
+    EditText etName, etPhone;
+
+    // Check box for if the friend is a favorite
     CheckBox cbFavorite;
+
+    // The current friend
     BEFriend friend;
+
+    // The image view holding the current friends image
     ImageView image;
+
+    // The picture taken with the camera app
     File mFile;
-    LocationListener locListener;
+
     LocationManager locationManager;
+
+    // The home address in latitude and longitude
     Double homeLatitude, homeLongitude;
 
     @Override
@@ -142,12 +150,13 @@ public class DetailActivity extends AppCompatActivity {
         locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        locListener = null;
-        requestGPSPermissions();
+
 
 
     }
 
+    // Sets the home location for the current friend
+    // and also saves the doubles in the instance variables
     private void setHomeLocation() {
 
         Location loc = lastKnownLocation();
@@ -169,6 +178,8 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
+    // Checks for permissions
+    // and either gets the location of the device or returns null
     private Location lastKnownLocation() {
         boolean GPSPermissionGiven = true;
 
@@ -180,26 +191,7 @@ public class DetailActivity extends AppCompatActivity {
                 .getLastKnownLocation(LocationManager.GPS_PROVIDER) : null;
     }
 
-    private void requestGPSPermissions() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d(TAG, "permission denied to USE GPS - requesting it");
-                String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-                return;
-
-            } else {
-                Log.d(TAG, "permission to USE GPS granted!");
-            }
-        } else
-            Log.d(TAG, "permission to USE GPS granted by manifest only");
-
-    }
-
+    // Handles permissions
     private void checkPermissions() {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) return;
 
@@ -208,14 +200,15 @@ public class DetailActivity extends AppCompatActivity {
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
             permissions.add(Manifest.permission.CAMERA);
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        //    permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permissions.size() > 0) {
             ActivityCompat.requestPermissions(this, permissions.toArray(new String[permissions.size()]), PERMISSION_REQUEST_CODE);
         }
     }
 
+    // Handles camera through file provider
     private void openCameraWithFileProvider() {
         mFile = getOutputMediaFile();
         if (mFile == null) {
@@ -235,6 +228,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    // Creates and returns the media file when a picture is taken
     private File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Camera01");
@@ -259,6 +253,7 @@ public class DetailActivity extends AppCompatActivity {
         return mediaFile;
     }
 
+    // starts a dialog for SMS
     private void showYesNoDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -281,6 +276,7 @@ public class DetailActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // Sends SMS if permission has been given and stops the request if not.
     private void sendSMS() {
         Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
                 .show();
@@ -308,6 +304,7 @@ public class DetailActivity extends AppCompatActivity {
         m.sendTextMessage(phoneNumber, null, text, null, null);
     }
 
+    // Gets the result from the text message.
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSION_TO_SMS_CODE) {
@@ -323,18 +320,18 @@ public class DetailActivity extends AppCompatActivity {
             Log.d(TAG, "Unknown permission request code: " + requestCode);
     }
 
+    // Sets the picture received from the camera intent on the ImageView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BY_FILE) {
             if (resultCode == RESULT_OK) {
                 image.setImageURI(Uri.fromFile(mFile));
-                //mImage.setBackgroundColor(Color.RED);
-                //mImage.setRotation(90);
             } else handleOther(resultCode);
         }
     }
 
+    // handles errors or if the request has been cancelled.
     private void handleOther(int resultCode) {
         if (resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "Canceled...", Toast.LENGTH_LONG).show();
@@ -343,6 +340,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    // Handles starting the sms activity
     private void startSMSActivity() {
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         String phoneNumber = etPhone.getText().toString();
@@ -351,6 +349,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(sendIntent);
     }
 
+    // Handles starting a call activity
     public void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         String phoneNumber = etPhone.getText().toString();
@@ -358,6 +357,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Handles starting a browser activity
     private void startBrowser() {
         String url = "http://www.dr.dk";
         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -365,6 +365,7 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    // Sets the GUI based on the friend received from the main activity
     private void setGUI() {
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
         if (friend != null) {
@@ -380,6 +381,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    // Updates or creates a friend depending on how the activity was opening
     protected void onClickOK() {
         Intent data = new Intent();
         BEFriend f;
@@ -389,15 +391,22 @@ public class DetailActivity extends AppCompatActivity {
         if (friend != null) {
 
             f = new BEFriend(friend.getId(), String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath,
-                    friend.getHomeLatitude(), friend.getHomeLongitude());
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
+            if (homeLongitude != null && homeLatitude != null) {
+                f.setHomeLatitude(homeLatitude);
+                f.setHomeLongitude(homeLongitude);
+            }
             data.putExtra("updatedFriend", f);
 
             Log.d(TAG, "onClickOK updated: Friend = " + f);
             setResult(RESULT_OK, data);
         } else {
             f = new BEFriend(0, String.valueOf(etName.getText()),
-                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath, homeLatitude, homeLongitude);
+                    etPhone.getText().toString(), cbFavorite.isChecked(), filepath);
+            if (homeLongitude != null && homeLatitude != null) {
+                f.setHomeLatitude(homeLatitude);
+                f.setHomeLongitude(homeLongitude);
+            }
             data.putExtra("newFriend", f);
             Log.d(TAG, "onClickOK: new: Friend = " + f);
             setResult(RESULT_FIRST_USER, data);
@@ -420,7 +429,7 @@ public class DetailActivity extends AppCompatActivity {
         return filepath;
     }
 
-
+    // Finishes the intent and sets result as canceled
     protected void onClickCancel() {
         setResult(RESULT_CANCELED);
         finish();
