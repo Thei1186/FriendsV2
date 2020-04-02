@@ -16,13 +16,20 @@ import java.util.List;
 import dk.easv.friendsv2.Model.BEFriend;
 
 public class MainActivity extends AppCompatActivity {
+    // Provides access to database
     private IDataAccess mDataAccess;
+    // Tag for logging
     public static String TAG = "Friend2";
+    // Used for opening the details activity
     int SECOND_ACTIVITY = 2;
 
+    // The list of friends fetched from the database
     List<BEFriend> friends;
+    // The adapter for presenting the list of friends
     FriendAdapter friendAdapter;
+    // The list view that contains the friends
     ListView friendList;
+    // The context menu used for creating a new friend or deleting all friends
     TextView menu;
 
     @Override
@@ -43,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         friendList.setAdapter(friendAdapter);
 
-
+        // Sets a listener on the friend list and opens the details page for
+        // the chosen friend.
         friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) {
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets a listener on the friend list. Get the position of a selected friend.
+        // Sets a long click listener on the friend list. Get the position of a selected friend.
         // If the click is long the friend will be deleted.
         friendList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // creates the menu
+    // creates the context menu
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
